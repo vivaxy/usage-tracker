@@ -47,6 +47,9 @@ p.send = function (o) {
                 'Authorization': 'token ' + this.token,
                 'Accept': 'application/json; charset=utf-8',
                 'Content-Type': 'application/json; charset=utf-8',
+                // http://stackoverflow.com/questions/17922748/what-is-the-correct-method-for-calculating-the-content-length-header-in-node-js
+                // Buffer.byteLength instead of String.prototype.length
+                'Content-Length': Buffer.byteLength(postData),
                 'User-Agent': packageJson.name + '/' + packageJson.version
             }
         },
@@ -60,6 +63,7 @@ p.send = function (o) {
             });
         });
     _this.log.verbose('Authorization', options.headers['Authorization']);
+    _this.log.verbose('Content-Length', options.headers['Content-Length']);
     _this.log.verbose('User-Agent', options.headers['User-Agent']);
     _this.log.verbose('post data', postData);
     req.on('error', function (e) {
