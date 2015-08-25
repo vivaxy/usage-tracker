@@ -1,6 +1,6 @@
 {
     "name": "usage-tracker",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "usage tracker for node js to github issues",
     "main": "index.js",
     "scripts": {

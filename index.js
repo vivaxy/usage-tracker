@@ -34,7 +34,7 @@ module.exports = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
-        packageJson = path.join(__dirname, './package.json'),
+        packageJson = require(path.join(__dirname, './package.json')),
         postData = JSON.stringify({
             body: this.prettify(this.report) + this.prettify(o)
         }),
@@ -56,10 +56,12 @@ p.send = function (o) {
                 _this.log.debug('usage sent');
             }
             res.on('data', function (d) {
-                _this.log.verbose('response ', d.toString());
+                _this.log.verbose('response', d.toString());
             });
         });
-    _this.log.verbose('post data ', postData);
+    _this.log.verbose('Authorization', options.headers['Authorization']);
+    _this.log.verbose('User-Agent', options.headers['User-Agent']);
+    _this.log.verbose('post data', postData);
     req.on('error', function (e) {
         _this.log.debug(e.message);
     });
