@@ -6,31 +6,19 @@
 var path = require('path'),
     https = require('https'),
 
+    log = require('log-util'),
+
     UsageTracker = function (options) {
-
-        this.owner = options.owner || 'vivaxy';
-        this.repo = options.repo || 'usage-tracker';
-        this.number = options.number || 1;
-        this.token = options.token;
-        this.report = options.report;
-
-        this.log = options.log || {
-                verbose: console.log,
-                debug: console.log,
-                info: console.log,
-                warn: console.log,
-                error: console.log
-            };
 
         this.host = 'api.github.com';
         this.port = 443;
-        this.path = '/repos/' + this.owner + '/' + this.repo + '/issues/' + this.number + '/comments';
+
+        this.initialize(options);
     },
     p = {};
 
 UsageTracker.prototype = p;
 p.constructor = UsageTracker;
-module.exports = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
@@ -82,3 +70,18 @@ p.prettify = function (o) {
     }
     return output;
 };
+
+p.initialize = function (options) {
+    this.log = options.log || log;
+    this.owner = options.owner || 'vivaxy';
+    this.repo = options.repo || 'usage-tracker';
+    this.number = options.number || 1;
+    this.token = options.token || '';
+    this.report = options.report || {};
+    this.path = '/repos/' + this.owner + '/' + this.repo + '/issues/' + this.number + '/comments';
+    return this;
+};
+
+var usageTracker = new UsageTracker({});
+usageTracker.UsageTracker = UsageTracker;
+module.exports = usageTracker;

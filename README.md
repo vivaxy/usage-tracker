@@ -1,16 +1,14 @@
 # usage-tracker
+
 node usage tracker
 
 
 ## usage
 
 ```
-var Log = require('util-log');
-var UsageTracker = require('usage-tracker');
+var usageTracker = require('usage-tracker');
 
-var log = new Log();
-
-var usageTracker = new UsageTracker({
+usageTracker.initialize({
     owner: 'vivaxy',
     repo: 'usage-tracker',
     number: 1,
@@ -38,4 +36,8 @@ usageTracker.send({
 
 ```
 
-## do not use other character in data sent.
+## api
+
+### class `UsageTracker`
+
+access by `usageTracker.UsageTracker`

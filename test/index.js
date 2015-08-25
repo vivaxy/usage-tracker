@@ -4,9 +4,9 @@
  */
 'use strict';
 var path = require('path');
-var UsageTracker = require('../index.js');
+var usageTracker = require('../index.js');
 
-var usageTracker = new UsageTracker({
+usageTracker.initialize({
     owner: 'vivaxy',
     repo: 'usage-tracker',
     number: 1,
