@@ -13,7 +13,13 @@ var https = require('https'),
         this.token = options.token;
         this.report = options.report;
 
-        this.log = options.log || console.log;
+        this.log = options.log || {
+                verbose: console.log,
+                debug: console.log,
+                info: console.log,
+                warn: console.log,
+                error: console.log
+            };
 
         this.host = 'api.github.com';
         this.port = 443;

@@ -1,21 +1,15 @@
-# usage-tracker
-node usage tracker
-
-
-## usage
-
-```
-var Log = require('util-log');
-var UsageTracker = require('usage-tracker');
-
-var log = new Log();
+/**
+ * @since 15-08-25 10:43
+ * @author vivaxy
+ */
+'use strict';
+var UsageTracker = require('../index.js');
 
 var usageTracker = new UsageTracker({
     owner: 'vivaxy',
     repo: 'usage-tracker',
     number: 1,
-    token: 'github authorization token', // token should be encrypted
-    log: log,
+    token: ''.split('').reverse().join(''),
     report: {
         // time
         timestamp: new Date().getTime(),
@@ -35,7 +29,3 @@ usageTracker.send({
     event: 'test',
     data: 'this is a test comment'
 });
-
-```
-
-## do not use other character in data sent.
