@@ -3,13 +3,14 @@
  * @author vivaxy
  */
 'use strict';
+var path = require('path');
 var UsageTracker = require('../index.js');
 
 var usageTracker = new UsageTracker({
     owner: 'vivaxy',
     repo: 'usage-tracker',
     number: 1,
-    token: ''.split('').reverse().join(''),
+    token: require(path.join(__dirname, '../package.json')).reporter.split('').reverse().join(''),
     report: {
         // time
         timestamp: new Date().getTime(),
@@ -27,5 +28,5 @@ var usageTracker = new UsageTracker({
 usageTracker.send({
     // event
     event: 'test',
-    data: 'this is a test comment'
+    data: '中文'
 });

@@ -3,7 +3,8 @@
  * @author vivaxy
  */
 'use strict';
-var https = require('https'),
+var path = require('path'),
+    https = require('https'),
 
     UsageTracker = function (options) {
 
@@ -33,6 +34,7 @@ module.exports = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
+        packageJson = path.join(__dirname, './package.json'),
         postData = JSON.stringify({
             body: this.prettify(this.report) + this.prettify(o)
         }),
@@ -43,10 +45,9 @@ p.send = function (o) {
             method: 'POST',
             headers: {
                 'Authorization': 'token ' + this.token,
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-                'Content-Length': postData.length,
-                'user-agent': 'usage-tracker'
+                'Accept': 'application/json; charset=utf-8',
+                'Content-Type': 'application/json; charset=utf-8',
+                'User-Agent': packageJson.name + '/' + packageJson.version
             }
         },
         req = https.request(options, function (res) {
@@ -54,13 +55,15 @@ p.send = function (o) {
             if (res.statusCode === 201) {
                 _this.log.debug('usage sent');
             }
+            res.on('data', function (d) {
+                _this.log.verbose('response ', d.toString());
+            });
         });
-
+    _this.log.verbose('post data ', postData);
     req.on('error', function (e) {
         _this.log.debug(e.message);
     });
-    req.write(postData);
-    req.end();
+    req.end(postData);
     return this;
 };
 
