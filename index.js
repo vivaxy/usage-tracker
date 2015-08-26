@@ -3,15 +3,13 @@
  * @author vivaxy
  */
 'use strict';
-var path = require('path'),
-    https = require('https'),
+var https = require('https'),
 
     log = require('log-util'),
     dateFormat = require('dateformat'),
 
     UsageTracker = function (options) {
 
-        this.packageJson = require(path.join(__dirname, './package.json'));
         this.host = 'api.github.com';
         this.port = 443;
         this.defaultReport = {
@@ -20,9 +18,9 @@ var path = require('path'),
             platform: process.platform,
             'node-version': process.version,
             argv: process.argv,
-            cwd: process.cwd()
+            cwd: process.cwd(),
+            'usage-tracker-version': require('./package.json').version
         };
-        this.defaultReport[this.packageJson.name + '-version'] = this.packageJson.version;
         this.initialize(options);
     },
     p = {};
@@ -32,7 +30,6 @@ p.constructor = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
-        packageJson = this.packageJson,
         postData = JSON.stringify({
             body: this.getRequestBody(o)
         }),
@@ -48,7 +45,7 @@ p.send = function (o) {
                 // http://stackoverflow.com/questions/17922748/what-is-the-correct-method-for-calculating-the-content-length-header-in-node-js
                 // Buffer.byteLength instead of String.prototype.length
                 'Content-Length': Buffer.byteLength(postData),
-                'User-Agent': packageJson.name + '/' + packageJson.version
+                'User-Agent': require('./package.json').name + '/' + require('./package.json').version
             }
         },
         req = https.request(options, function (res) {
