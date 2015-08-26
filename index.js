@@ -34,7 +34,7 @@ p.send = function (o) {
     var _this = this,
         packageJson = this.packageJson,
         postData = JSON.stringify({
-            body: '```json\n' + this.prettify(this.defaultReport) + this.prettify(this.report) + this.prettify(o) + '\n```'
+            body: this.getRequestBody(o)
         }),
         options = {
             host: this.host,
@@ -79,6 +79,16 @@ p.prettify = function (o) {
         }
     }
     return output;
+};
+
+p.getRequestBody = function (o) {
+    return '```json' +
+        '\n' +
+        this.prettify(this.defaultReport) +
+        this.prettify(this.report) +
+        this.prettify(o).slice(0, -2) +
+        '\n' +
+        '```'
 };
 
 p.initialize = function (options) {
