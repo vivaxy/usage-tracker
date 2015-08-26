@@ -13,19 +13,12 @@ usageTracker.initialize({
     token: require(path.join(__dirname, '../package.json')).reporter.split('').reverse().join(''),
     report: {
         // time
-        timestamp: new Date().getTime(),
-        // process
-        arch: process.arch,
-        platform: process.platform,
-        version: process.version,
-        versions: process.versions,
-        argv: process.argv,
-        cwd: process.cwd()
+        timestamp: new Date().getTime()
     }
 });
 
 usageTracker.send({
     // event
     event: 'test',
-    data: '中文'
+    data: '测试'
 });

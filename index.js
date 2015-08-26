@@ -11,12 +11,18 @@ var path = require('path'),
 
     UsageTracker = function (options) {
 
+        this.packageJson = require(path.join(__dirname, './package.json'));
         this.host = 'api.github.com';
         this.port = 443;
         this.defaultReport = {
-            time: dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss.l o')
+            time: dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss.l o'),
+            arch: process.arch,
+            platform: process.platform,
+            'node-version': process.version,
+            argv: process.argv,
+            cwd: process.cwd()
         };
-
+        this.defaultReport[this.packageJson.name + '-version'] = this.packageJson.version;
         this.initialize(options);
     },
     p = {};
@@ -26,9 +32,9 @@ p.constructor = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
-        packageJson = require(path.join(__dirname, './package.json')),
+        packageJson = this.packageJson,
         postData = JSON.stringify({
-            body: this.prettify(this.defaultReport) + this.prettify(this.report) + this.prettify(o)
+            body: '```json\n' + this.prettify(this.defaultReport) + this.prettify(this.report) + this.prettify(o) + '\n```'
         }),
         options = {
             host: this.host,
@@ -69,7 +75,7 @@ p.prettify = function (o) {
     var output = '\n';
     for (var i in o) {
         if (o.hasOwnProperty(i)) {
-            output += i + ': ' + JSON.stringify(o[i]) + '\n';
+            output += '"' + i + '": ' + JSON.stringify(o[i]) + ',\n';
         }
     }
     return output;
