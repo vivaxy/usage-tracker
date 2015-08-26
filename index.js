@@ -7,11 +7,15 @@ var path = require('path'),
     https = require('https'),
 
     log = require('log-util'),
+    dateFormat = require('dateformat'),
 
     UsageTracker = function (options) {
 
         this.host = 'api.github.com';
         this.port = 443;
+        this.defaultReport = {
+            time: dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss.l o')
+        };
 
         this.initialize(options);
     },
@@ -24,7 +28,7 @@ p.send = function (o) {
     var _this = this,
         packageJson = require(path.join(__dirname, './package.json')),
         postData = JSON.stringify({
-            body: this.prettify(this.report) + this.prettify(o)
+            body: this.prettify(this.defaultReport) + this.prettify(this.report) + this.prettify(o)
         }),
         options = {
             host: this.host,

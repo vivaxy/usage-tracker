@@ -14,7 +14,6 @@ usageTracker.initialize({
     report: {
         // time
         timestamp: new Date().getTime(),
-        time: new Date().toString(),
         // process
         arch: process.arch,
         platform: process.platform,
