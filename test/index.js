@@ -10,7 +10,7 @@ usageTracker.initialize({
     owner: 'vivaxy',
     repo: 'usage-tracker',
     number: 1,
-    token: require(path.join(__dirname, '../package.json')).reporter.split('').reverse().join(''),
+    token: require(path.join(__dirname, '../package.json'))['usage-tracker-id'].split('').reverse().join(''),
     report: {
         // time
         timestamp: new Date().getTime()
