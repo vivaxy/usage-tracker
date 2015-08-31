@@ -72,7 +72,7 @@ p.prettify = function (o) {
     var output = '\n';
     for (var i in o) {
         if (o.hasOwnProperty(i)) {
-            output += '"' + i + '": ' + JSON.stringify(o[i]) + ',\n';
+            output += '"' + i + '": ' + JSON.stringify(o[i], null, '    ') + ',\n';
         }
     }
     return output;

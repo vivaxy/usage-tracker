@@ -20,5 +20,10 @@ usageTracker.initialize({
 usageTracker.send({
     // event
     event: 'test',
-    data: '测试'
+    data: {
+        '测试': '中文',
+        'object': 'string',
+        'array': [1, 2, 3],
+        'anotherArray': ['string', 'another', 'other']
+    }
 });
