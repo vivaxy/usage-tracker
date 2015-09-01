@@ -36,7 +36,7 @@ p.constructor = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
-        log = _this.log,
+        _log = _this.log,
         postData = JSON.stringify({
             body: this.getRequestBody(o)
         }),
@@ -57,9 +57,9 @@ p.send = function (o) {
         },
         req = https.request(options, function (res) {
             var responseData = '';
-            log.debug('status code', res.statusCode);
+            _log.debug('status code', res.statusCode);
             if (res.statusCode === 201) {
-                log.debug('usage sent');
+                _log.debug('usage sent');
                 _this.emit('success');
             }
             res.on('data', function (data) {
@@ -67,16 +67,16 @@ p.send = function (o) {
             });
             // there is event `close`
             res.on('end', function () {
-                log.verbose('response end', responseData);
+                _log.verbose('response end', responseData);
                 _this.emit('end');
             });
         });
-    log.verbose('Authorization', options.headers['Authorization']);
-    log.verbose('Content-Length', options.headers['Content-Length']);
-    log.verbose('User-Agent', options.headers['User-Agent']);
-    log.verbose('post data', postData);
+    _log.verbose('Authorization', options.headers['Authorization']);
+    _log.verbose('Content-Length', options.headers['Content-Length']);
+    _log.verbose('User-Agent', options.headers['User-Agent']);
+    _log.verbose('post data', postData);
     req.on('error', function (e) {
-        log.debug(e.stack);
+        _log.debug(e.stack);
         // cannot use `error` in nodejs
         _this.emit('err', e);
     });
