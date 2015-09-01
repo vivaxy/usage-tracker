@@ -33,6 +33,30 @@ usageTracker.send({
 
 access by `usageTracker.UsageTracker`
 
+### method `on`
+
+```
+usageTracker.on('eventType', function () {
+    // callback goes on here
+});
+```
+
+## event
+
+### `end`
+
+response end
+
+### `success`
+
+response end and report sent successfully
+
+### `err`
+
+request error
+
+callback accepts one argument: `error` object, containing `error.message`, `error.stack`
+
 ## default report
 
 ```

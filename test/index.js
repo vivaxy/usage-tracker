@@ -15,6 +15,12 @@ usageTracker.initialize({
         // time
         timestamp: new Date().getTime()
     }
+}).on('end', function () {
+    console.log('request end');
+}).on('success', function () {
+    console.log('request success');
+}).on('err', function (e) {
+    console.log(e.stack);
 });
 
 usageTracker.send({

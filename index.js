@@ -3,12 +3,18 @@
  * @author vivaxy
  */
 'use strict';
-var https = require('https'),
+var util = require('util'),
+    https = require('https'),
+    events = require('events'),
+
+    EventEmitter = events.EventEmitter,
 
     log = require('log-util'),
     dateFormat = require('dateformat'),
 
     UsageTracker = function (options) {
+
+        EventEmitter.apply(this, arguments);
 
         this.host = 'api.github.com';
         this.port = 443;
@@ -22,14 +28,15 @@ var https = require('https'),
             'usage-tracker-version': require('./package.json').version
         };
         this.initialize(options);
-    },
-    p = {};
+    };
 
-UsageTracker.prototype = p;
+util.inherits(UsageTracker, EventEmitter);
+var p = UsageTracker.prototype;
 p.constructor = UsageTracker;
 
 p.send = function (o) {
     var _this = this,
+        log = _this.log,
         postData = JSON.stringify({
             body: this.getRequestBody(o)
         }),
@@ -49,20 +56,29 @@ p.send = function (o) {
             }
         },
         req = https.request(options, function (res) {
-            _this.log.debug('status code', res.statusCode);
+            var responseData = '';
+            log.debug('status code', res.statusCode);
             if (res.statusCode === 201) {
-                _this.log.debug('usage sent');
+                log.debug('usage sent');
+                _this.emit('success');
             }
-            res.on('data', function (d) {
-                _this.log.verbose('response', d.toString());
+            res.on('data', function (data) {
+                responseData += data;
+            });
+            // there is event `close`
+            res.on('end', function () {
+                log.verbose('response end', responseData);
+                _this.emit('end');
             });
         });
-    _this.log.verbose('Authorization', options.headers['Authorization']);
-    _this.log.verbose('Content-Length', options.headers['Content-Length']);
-    _this.log.verbose('User-Agent', options.headers['User-Agent']);
-    _this.log.verbose('post data', postData);
+    log.verbose('Authorization', options.headers['Authorization']);
+    log.verbose('Content-Length', options.headers['Content-Length']);
+    log.verbose('User-Agent', options.headers['User-Agent']);
+    log.verbose('post data', postData);
     req.on('error', function (e) {
-        _this.log.debug(e.message);
+        log.debug(e.stack);
+        // cannot use `error` in nodejs
+        _this.emit('err', e);
     });
     req.end(postData);
     return this;
