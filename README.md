@@ -7,6 +7,8 @@
 
 [![NPM][nodei-image]][nodei-url]
 
+[![NPM][nodei-dl-image]][nodei-url]
+
 node usage tracker
 
 ## usage
@@ -82,5 +84,6 @@ cwd: process.cwd(),
 [license-url]: LICENSE
 [david-image]: http://img.shields.io/david/vivaxy/usage-tracker.svg?style=flat-square
 [david-url]: https://david-dm.org/vivaxy/usage-tracker
-[nodei-image]: https://nodei.co/npm-dl/usage-tracker.png?height=3
+[nodei-dl-image]: https://nodei.co/npm-dl/usage-tracker.png?height=3
 [nodei-url]: https://nodei.co/npm/usage-tracker/
+[nodei-image]: https://nodei.co/npm/usage-tracker.svg?downloads=true&downloadRank=true&stars=true
