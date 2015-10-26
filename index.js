@@ -31,10 +31,9 @@ var util = require('util'),
     };
 
 util.inherits(UsageTracker, EventEmitter);
-var p = UsageTracker.prototype;
-p.constructor = UsageTracker;
+UsageTracker.prototype.constructor = UsageTracker;
 
-p.send = function (o) {
+UsageTracker.prototype.send = function (o) {
     var _this = this,
         _log = _this.log,
         postData = JSON.stringify({
@@ -84,7 +83,7 @@ p.send = function (o) {
     return this;
 };
 
-p.prettify = function (o) {
+UsageTracker.prototype.prettify = function (o) {
     var output = '\n';
     for (var i in o) {
         if (o.hasOwnProperty(i)) {
@@ -94,7 +93,7 @@ p.prettify = function (o) {
     return output;
 };
 
-p.getRequestBody = function (o) {
+UsageTracker.prototype.getRequestBody = function (o) {
     return '```json' +
         '\n' +
         this.prettify(this.defaultReport) +
@@ -104,7 +103,7 @@ p.getRequestBody = function (o) {
         '```'
 };
 
-p.initialize = function (options) {
+UsageTracker.prototype.initialize = function (options) {
     this.log = options.log || log;
     this.owner = options.owner || 'vivaxy';
     this.repo = options.repo || 'usage-tracker';
