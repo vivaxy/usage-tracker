@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/vivaxy/usage-tracker#readme",
   "dependencies": {
-    "dateformat": "^3.0.0",
+    "dateformat": "^4.0.0",
     "log-util": "^2.0.0"
   },
   "usage-tracker-id": "0f8ecf38612266db610a6b55587b94308ec14669"
